@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Question Explorer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-light">
+
+    <!-- ✅ Navbar -->
+    <nav class="navbar bg-dark sticky-top shadow-sm">
+        <div class="container d-flex justify-content-center py-2">
+            <a class="navbar-brand" href="#">
+                <img src="https://static.wixstatic.com/media/4900c6_fe4df99b0c594ec29890a095f535935a~mv2.png/v1/fill/w_382,h_108,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/UD5%20White.png"
+                     alt="Logo"
+                     style="height: 50px;">
+            </a>
+        </div>
+    </nav>
+
+    <!-- ✅ Main Container -->
+    <div class="container py-5">
+        <div class="mx-auto" style="max-width: 1000px;">
+            <!-- ✅ Dropdown Form -->
+            <form method="POST" class="row g-4 mb-4">
+                <div class="col-md-4">
+                    <label for="subject" class="form-label">Subject</label>
+                    <select id="subject" name="subject" class="form-select">
+                        <option disabled selected>Select Subject</option>
+                        {% for sub in subjects %}
+                            <option value="{{ sub }}" {% if selected_subject == sub %}selected{% endif %}>{{ sub }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="year" class="form-label">Year</label>
+                    <select id="year" name="year" class="form-select">
+                        <option disabled selected>Select Year</option>
+                        {% for y in years %}
+                            <option value="{{ y }}" {% if selected_year == y|string %}selected{% endif %}>{{ y }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="question" class="form-label">Question</label>
+                    <select id="question" name="question" class="form-select">
+                        <option disabled selected>Select Question</option>
+                        {% for q in questions %}
+                            <option value="{{ q }}" {% if selected_question == q %}selected{% endif %}>{{ q }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+
+            <!-- ✅ Question & Answer Images -->
+            {% if data %}
+            <div class="fade-in">
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="image-box">
+                            <img src="{{ data['question_image'] }}" alt="Question" onerror="this.style.display='none'">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="image-box">
+                            <img src="{{ data['answer_image'] }}" alt="Answer" onerror="this.style.display='none'">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ✅ Clue Boxes -->
+                <div class="row g-4 mt-4 text-center">
+                    <div class="col-md-4">
+                        <div class="clue-box">{{ data['clue1'] }}</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="clue-box">{{ data['clue2'] }}</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="clue-box">{{ data['clue3'] }}</div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- ✅ Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- ✅ Custom JS -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/autoSubmit.js') }}"></script>
+</body>
+</html>
